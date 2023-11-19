@@ -1,6 +1,10 @@
 import uuid
 import datetime
 
+
+class Printable:
+  def json(self):
+    return self.__dict__
 class Importable:
   def __init__(self, price_in, nbr_products):
     if nbr_products is not None and (not isinstance(nbr_products, int) or nbr_products < 0 ):
@@ -90,5 +94,4 @@ class BaseProduct(Indexable):
   
   def set_name(self, name) -> None:
     self._name = name
-
 
