@@ -115,6 +115,54 @@ class ManageProduct:
                            lambda x, y: (x.get_price_in() * x.get_nbr_products) > (y.get_price_in() * y.get_nbr_products)
                            ,reverse=reverse)
 
+  #7
+  def show_top5_high_low_pricein(self):
+    high_product=[]
+    low_product=[]
+    for product in self.sort_by_price_in(self.__products):
+        high_product = product[:5]
+        low_product= product[-5:]
+    return high_product, low_product
+
+  #8
+  def set_new_price_out(self):
+    exp_product=[]
+    for product in self.__products:
+      date_about_to_exp = product.get_mfg() - product.get_exp()
+      if (date_about_to_exp.days < 14):
+        new_price_in = sum(product.get_price_out()*0.45)
+        product._price_out = new_price_in
+        exp_product.append(product)
+      elif (14 < date_about_to_exp.days <= 31):
+        new_price_in = sum(product.get_price_out()*0.8)
+        product._price_out = new_price_in
+        exp_product.append(product)
+      else:
+        return
+    return exp_product
+  #10
+  def edit_product(self, id:str):
+    if not isinstance(id, self.__products):
+      ValueError("ID product not exist")
+    for product in self.__products:
+      if product.get_id()==id:
+        item = product[id]
+        new_info = self.add_product(item)
+        self[id] = new_info
+
+  #11
+  def del_product(self, id:str):
+    if not isinstance(id, self.__products):
+      ValueError("ID product not exist")
+    for product in self.__products:
+      if product.get_id()==id:
+        item = product[id]
+        self.__products.remove(item)
+
+  #12
+  def add_import_order(self, orderproduct):
+    self.__import_orders.append(orderproduct)
+
 
 p = Product(name="Hellp", price_in=10214, price_out=1324, 
              nbr_products=102, mfg=datetime.datetime.now(), 
