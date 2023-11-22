@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 from models import product
+from models import base_model
 
 manager = product.ManageProduct
 
@@ -127,8 +128,8 @@ while True:
 
       # Sua thong tin hang hoa theo id
 
-      try:
-        id = input("Nhap ma san pham: ")
+      try:        
+        id = ''        
         manager.edit_product(id)
       except Exception:
         print("An error occurred! ")
@@ -189,7 +190,7 @@ while True:
       # Xoa hang hoa
 
       try:
-        id = input("Nhap ma hang can xoa: ")
+        id = ''
         manager.del_product(id)
       except Exception:
         print("An error occurred! ")
