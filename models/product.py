@@ -122,25 +122,25 @@ class ManageProduct:
     for product in self.sort_by_price_in(self.__products):
         high_product = product[:5]
         low_product= product[-5:]
-    return high_product, low_product
+    return high_product
 
-  #8
+  #8: DONE
   def set_new_price_out(self):
     exp_product=[]
     for product in self.__products:
       date_about_to_exp = product.get_mfg() - product.get_exp()
       if (date_about_to_exp.days < 14):
-        new_price_in = sum(product.get_price_out()*0.45)
+        new_price_in = product.get_price_out()*0.45
         product._price_out = new_price_in
         exp_product.append(product)
       elif (14 < date_about_to_exp.days <= 31):
-        new_price_in = sum(product.get_price_out()*0.8)
+        new_price_in = product.get_price_out()*0.8
         product._price_out = new_price_in
         exp_product.append(product)
       else:
         return
     return exp_product
-  #10
+  #10: DONE
   def edit_product(self, id:str):
     for product in self.__products:
       if product.get_id()==id:
@@ -148,15 +148,19 @@ class ManageProduct:
         new_price_in = int(input("Enter new price in: "))
         new_price_out = int(input("Enter new price out: "))
         new_nbr_products = int(input("Enter new number of product: "))
-        new_exp = datetime.datetime.now()
-        new_msg = datetime.datetime.now()
+        exp = input("Enter expiration day (dd/MM/yyyy): ")
+        new_exp = datetime.datetime.strptime(exp, '%d/%m/%Y')
+        formated_new_exp= datetime.datetime.strftime(new_exp, '%d/%m/%Y')
+        mfg = input("Enter mfg day (dd/MM/yyyy): ")
+        new_mfg = datetime.datetime.strptime(mfg, '%d/%m/%Y')
+        formated_new_mfg = datetime.datetime.strftime(new_mfg, '%d/%m/%Y')
 
         product._name = new_name 
         product._price_out = new_price_in
         product._price_in = new_price_out
         product._nbr_products = new_nbr_products
-        product._exp = new_exp
-        product._mfg = new_msg  
+        product._exp = formated_new_exp
+        product._mfg = formated_new_mfg 
         return product      
       else:
         return ValueError("ID product not exist")
@@ -172,13 +176,3 @@ class ManageProduct:
   def add_import_order(self, orderproduct):
     self.__import_orders.append(orderproduct)
 
-
-p = Product(name="Hellp", price_in=10214, price_out=1324, 
-             nbr_products=102, mfg=datetime.datetime.now(), 
-             exp=datetime.datetime.now())
-manager = ManageProduct()
-manager.add_product(p)
-print(manager.get_products())
-manager.edit_product(p.get_id())
-# manager.del_product(p.get_id())
-print(manager.get_products())
