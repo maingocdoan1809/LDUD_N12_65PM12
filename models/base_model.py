@@ -61,13 +61,13 @@ class Expirable:
   
   def set_exp(self, exp):
       if exp is not None and self._mfg is not None and  exp < self._mfg:
-        raise ValueError("MFG must be greater than or equal to EXP")
+        raise ValueError("EXP must be greater than or equal to MGF")
       
       self._exp = exp
 
   def set_mfg(self, mfg):
       if mfg is not None and self._exp is not None and  mfg > self._exp:
-        raise ValueError("MFG must be greater than or equal to EXP")
+        raise ValueError("MFG must be less than or equal to EXP")
       self._mfg = mfg
 
 class Indexable:

@@ -78,10 +78,10 @@ while True:
         while True:
 
           # K dung pattern, nhap lai
-          if re.match(r'(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',exp):
+          try:
             exp_date = datetime.strptime(exp,'%d/%m/%Y')
             break            
-          else:
+          except:
             exp = input("Nhap lai ngay het han (dd/MM/yyyy): ")
 
         # Nhap ngay san xuat #
@@ -89,10 +89,10 @@ while True:
         while True:
 
           # K dung pattern, nhap lai
-          if re.match(r'(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',mfg):
+          try:
             mfg_date = datetime.strptime(mfg,'%d/%m/%Y')
             break
-          else:
+          except:
             mfg = input("Nhap lai ngay san xuat (dd/MM/yyyy): ")
 
         # Them hang hoa #
