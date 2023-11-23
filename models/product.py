@@ -151,23 +151,32 @@ class ManageProduct:
     return exp_product
   #10
   def edit_product(self, id:str):
-    if not isinstance(id, self.__products):
-      ValueError("ID product not exist")
     for product in self.__products:
       if product.get_id()==id:
-        item = product[id]
-        new_info = self.add_product(item)
-        self[id] = new_info
+        new_name = input("Enter new product name: ")
+        new_price_in = int(input("Enter new price in: "))
+        new_price_out = int(input("Enter new price out: "))
+        new_nbr_products = int(input("Enter new number of product: "))
+        new_exp = datetime.datetime.now()
+        new_msg = datetime.datetime.now()
 
+        product._name = new_name 
+        product._price_out = new_price_in
+        product._price_in = new_price_out
+        product._nbr_products = new_nbr_products
+        product._exp = new_exp
+        product._mfg = new_msg  
+        return product      
+      else:
+        return ValueError("ID product not exist")
   #11
   def del_product(self, id:str):
-    if not isinstance(id, self.__products):
-      ValueError("ID product not exist")
     for product in self.__products:
       if product.get_id()==id:
-        item = product[id]
-        self.__products.remove(item)
-
+        self.__products.remove(product)
+        return self.__products
+      else:
+        ValueError("ID product not exist")
   #12
   def add_import_order(self, orderproduct):
     self.__import_orders.append(orderproduct)
@@ -180,3 +189,4 @@ class ManageProduct:
 
 # manager.add_product(p)
 # print(manager.get_products()) 
+
