@@ -2,9 +2,6 @@ import re
 from datetime import datetime
 import models.product as product
 
-
-manager = product.ManageProduct()
-
 def display_menu():
   print("----------------------------------------------------------------------------------------------------------")
   print("-                                                                                                        -")
@@ -21,6 +18,8 @@ def display_menu():
   print("-                                                |                                                       -")
   print("----------------------------------------------------------------------------------------------------------")
 
+manager = product.ManageProduct()
+
 while True:
   # Hien thi menu #
   display_menu()
@@ -32,6 +31,7 @@ while True:
   
   # Xu ly lua chon #
   match choice:
+    
     case 1:
 
       # Them hang hoa
@@ -106,16 +106,17 @@ while True:
         print("Error:",e)
         print("------------------------------")
 
-    case "2":
+    case 2:
 
       # Danh sach hang hoa
-      try: 
+      try:
+        print("Day la danh sach hang hoa: ") 
         x = manager.get_products()
         print(x)
       except Exception as e:
         print(e)
 
-    case "3":
+    case 3:
 
       # Tim kiem hang hoa theo ten
       try:
@@ -128,18 +129,22 @@ while True:
         tim_kiem_theo_ten = manager.search_by_name(name)
         print(tim_kiem_theo_ten) 
       except Exception as e:
-        raise e
+        print("------------------------------")
+        print("Error:",e)
+        print("------------------------------")
 
-    case "4":
+    case 4:
 
       # Sua thong tin hang hoa theo id
       try:        
-        id = ''        
+        id = input("Nhap ma hang hoa: ")        
         manager.edit_product(id)
-      except Exception:
-        print("An error occurred! ")
+      except Exception as e:
+        print("------------------------------")
+        print("Error:",e)
+        print("------------------------------")
 
-    case "5":
+    case 5:
 
       # Sap xep hang hoa theo tong tien nhap hang
       try:
@@ -158,45 +163,51 @@ while True:
           list = manager.sort_by_price_in(reverse)
           print(list)
       
-      except Exception:
-        print("An error occurred! ")
+      except Exception as e:
+        print("------------------------------")
+        print("Error:",e)
+        print("------------------------------")
 
-    case "6":
+    case 6:
 
       # Danh sach hang hoa sap het han su dung
       # Co ham se them vao sau
       pass
 
-    case "7":
+    case 7:
 
       # Top 5 hang hoa co gia nhap cao nhat, thap nhat
       try:
         manager.show_top5_high_low_pricein()
-      except Exception:
-        print("An error occurred! ")
+      except Exception as e:
+        print("------------------------------")
+        print("Error:",e)
+        print("------------------------------")
 
-    case "8":
+    case 8:
 
       # Hien thi danh sach hang can nhap 
       # Co ham se them sau 
       pass
 
-    case "9":
+    case 9:
 
       # Nhap hang 
       # Co ham se them sau 
       pass
     
-    case "10":
+    case 10:
 
       # Xoa hang hoa
       try:
-        id = ''
+        id = input("Nhap ma hang: ")
         manager.del_product(id)
-      except Exception:
-        print("An error occurred! ")
+      except Exception as e:
+        print("------------------------------")
+        print("Error:",e)
+        print("------------------------------")
 
-    case "11":
+    case 11:
 
       # Thoat chuong trinh
       print("Da thoat chuong trinh")
@@ -208,3 +219,4 @@ while True:
 #   {"id" : 4, "name" : "103"},
 #   {"id" : 3, "name" : "103"},
 # ]
+# print(x)

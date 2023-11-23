@@ -84,7 +84,15 @@ class ManageProduct:
     products = []
     for product in self.__products:
       products.append(product.json())
-    return products
+    # return products
+    for product in products:
+      print("Ma hang: ",product["id"])
+      print("Ten hang: ",product["name"])
+      print("Gia ban: ", product["price_out"])
+      print("Gia nhap: ",product["price_in"])
+      print("Ton kho: ",product["nbr_products"])
+      print("Ngay san xuat: ",product["mfg"])
+      print("Ngay het han: ",product["exp"])
   
   def search_by_name(self, name : str):
     products = []
