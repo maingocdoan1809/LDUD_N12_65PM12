@@ -1,20 +1,24 @@
 import re
 from datetime import datetime
-from models import product
-from models import base_model
+import models.product as product
+
 
 manager = product.ManageProduct
 
 def display_menu():
   print("----------------------------------------------------------------------------------------------------------")
+  print("-                                                                                                        -")
   print("-                                          Moi lua chon:                                                 -")
+  print("-                                                                                                        -")
   print("----------------------------------------------------------------------------------------------------------")
+  print("-                                                |                                                       -")
   print("- 1. Them moi hang hoa                           |    7. Top hang hoa tong tien nhap cao nhat            -")
   print("- 2. Danh sach hang hoa                          |    8. Hien thi danh sach hang can nhap                -")
   print("- 3. Tim kiem hang hoa theo ten                  |    9. Nhap hang                                       -")
   print("- 4. Sua thong tin san pham                      |    10. Xoa hang                                       -")
   print("- 5. Sap xep theo tong tien nhap hang            |    11. Thoat chuong trinh                             -")
   print("- 6. Danh sach hang hoa sap het han su dung      |                                                       -")
+  print("-                                                |                                                       -")
   print("----------------------------------------------------------------------------------------------------------")
 
 while True:
@@ -71,20 +75,20 @@ while True:
           # K dung pattern, nhap lai
 
           if not re.match('(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',exp):
-            exp = input("Nhap lai ngay het han (dd-MM-yyyy)")
+            exp = input("Nhap lai ngay het han (dd-MM-yyyy): ")
           else:
             exp_date = datetime.strptime(exp,'%d-%m-%Y')
             break
 
         # Nhap ngay san xuat #
 
-        mfg = datetime.now()
+        mfg = input("Nhap ngay san xuat (dd-mm-yyyy): ")
         while True:
 
           # K dung pattern, nhap lai
 
           if not re.match('(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',mfg):
-            mfg = input("Nhap lai ngay het han (dd-MM-yyyy)")
+            mfg = input("Nhap lai ngay san xuat (dd-MM-yyyy): ")
           else:
             mfg_date = datetime.strptime(mfg,'%d-%m-%Y')
             break
@@ -185,6 +189,7 @@ while True:
       # Co ham se them sau 
 
       pass
+    
     case "10":
 
       # Xoa hang hoa
