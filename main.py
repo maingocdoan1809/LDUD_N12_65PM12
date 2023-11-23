@@ -33,7 +33,7 @@ while True:
 
         # Nhap ten #
         
-        name = input("Ten:")
+        name = input("Ten: ")
         while True:
           if name is None:  
             name = input("Nhap lai ten: ")
@@ -69,29 +69,29 @@ while True:
 
         # Nhap ngay het han #
 
-        exp = input("Nhap ngay het han (dd-MM-yyyy): ")
+        exp = input("Nhap ngay het han (dd/MM/yyyy): ")
         while True:
 
           # K dung pattern, nhap lai
 
-          if not re.match('(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',exp):
-            exp = input("Nhap lai ngay het han (dd-MM-yyyy): ")
+          if re.match('(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',exp):
+            exp_date = datetime.strptime(exp,'%d/%m/%Y')
+            break            
           else:
-            exp_date = datetime.strptime(exp,'%d-%m-%Y')
-            break
+            exp = input("Nhap lai ngay het han (dd/MM/yyyy): ")
 
         # Nhap ngay san xuat #
 
-        mfg = input("Nhap ngay san xuat (dd-mm-yyyy): ")
+        mfg = input("Nhap ngay san xuat (dd/mm/yyyy): ")
         while True:
 
           # K dung pattern, nhap lai
 
-          if not re.match('(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',mfg):
-            mfg = input("Nhap lai ngay san xuat (dd-MM-yyyy): ")
-          else:
-            mfg_date = datetime.strptime(mfg,'%d-%m-%Y')
+          if re.match('(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',mfg):
+            mfg_date = datetime.strptime(mfg,'%d/%m/%Y')
             break
+          else:
+            mfg = input("Nhap lai ngay san xuat (dd/MM/yyyy): ")
 
         # Them hang hoa #
 
@@ -124,7 +124,7 @@ while True:
           else:
             break     
         tim_kiem_theo_ten = manager.search_by_name(name)
-        print(tim_kiem_theo_ten)   
+        print(tim_kiem_theo_ten) 
       except Exception:
         print("An error occurred! ")
 
