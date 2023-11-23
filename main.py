@@ -51,7 +51,7 @@ while True:
 
         # Nhap gia nhap #
 
-        price_in = input("Gia nhap: ")
+        price_in = int(input("Gia nhap: "))
         while True:
           if price_in is not None and ( not isinstance(price_in, int) or price_in < 0 ):
             price_in = int(input("Nhap lai gia nhap hang: "))
