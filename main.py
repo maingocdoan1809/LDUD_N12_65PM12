@@ -3,7 +3,7 @@ from datetime import datetime
 import models.product as product
 
 
-manager = product.ManageProduct
+manager = product.ManageProduct()
 
 def display_menu():
   print("----------------------------------------------------------------------------------------------------------")
@@ -22,17 +22,22 @@ def display_menu():
   print("----------------------------------------------------------------------------------------------------------")
 
 while True:
+  # Hien thi menu #
   display_menu()
-  choice = input("Lua chon: ")
+  
+  # Nhap lua chon #
+  choice = int(input("Lua chon: "))
+  while choice is None or (not isinstance(choice, int) or choice <= 0 or choice >= 12):
+      choice = int(input("Hay chon lai: "))
+  
+  # Xu ly lua chon #
   match choice:
-    case "1":
+    case 1:
 
       # Them hang hoa
-      
       try:
 
         # Nhap ten #
-        
         name = input("Ten: ")
         while True:
           if name is None:  
@@ -41,25 +46,26 @@ while True:
             break
 
         # Nhap gia ban #
-
         price_out = int(input("Gia ban hang: "))
         while True:
-          if price_out is not None and ( not isinstance(price_out, int) or price_out < 0 ):
+          if price_out is None:
+            price_out = int(input("Nhap lai gia ban hang: "))
+          elif price_out is not None and ( not isinstance(price_out, int) or price_out < 0 ):
             price_out = int(input("Nhap lai gia ban hang: "))
           else:
             break
 
         # Nhap gia nhap #
-
-        price_in = int(input("Gia nhap: "))
+        price_in = int(input("Gia nhap hang: "))
         while True:
-          if price_in is not None and ( not isinstance(price_in, int) or price_in < 0 ):
+          if price_in is None:
+            price_in = int(input("Nhap lai gia nhap hang: "))
+          elif price_in is not None and ( not isinstance(price_in, int) or price_in < 0 ):
             price_in = int(input("Nhap lai gia nhap hang: "))
           else:
             break
 
         # Nhap so luong ton kho #
-
         nbr_product = int(input("Nhap so luong ton kho: "))
         while True:
           if nbr_product is not None and (not isinstance(nbr_product, int) or nbr_product < 0 ):
@@ -68,12 +74,10 @@ while True:
             break
 
         # Nhap ngay het han #
-
         exp = input("Nhap ngay het han (dd/MM/yyyy): ")
         while True:
 
           # K dung pattern, nhap lai
-
           if re.match(r'(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',exp):
             exp_date = datetime.strptime(exp,'%d/%m/%Y')
             break            
@@ -81,12 +85,10 @@ while True:
             exp = input("Nhap lai ngay het han (dd/MM/yyyy): ")
 
         # Nhap ngay san xuat #
-
         mfg = input("Nhap ngay san xuat (dd/mm/yyyy): ")
         while True:
 
           # K dung pattern, nhap lai
-
           if re.match(r'(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[1,2])\/(19|20)\d{2}',mfg):
             mfg_date = datetime.strptime(mfg,'%d/%m/%Y')
             break
@@ -94,29 +96,28 @@ while True:
             mfg = input("Nhap lai ngay san xuat (dd/MM/yyyy): ")
 
         # Them hang hoa #
-
         pd = product.Product(name,price_out,price_in,nbr_product,exp_date,mfg_date)
+        #print(pd._name)
+
         manager.add_product(pd)
 
       except Exception as e:
         print("------------------------------")
-        print(e)
+        print("Error:",e)
         print("------------------------------")
 
     case "2":
 
       # Danh sach hang hoa
-
       try: 
-        x =  manager.get_products()
+        x = manager.get_products()
         print(x)
-      except Exception:
-        print("An error occurred! ")
+      except Exception as e:
+        print(e)
 
     case "3":
 
       # Tim kiem hang hoa theo ten
-
       try:
         name = input("Ten:")
         while True:
@@ -132,7 +133,6 @@ while True:
     case "4":
 
       # Sua thong tin hang hoa theo id
-
       try:        
         id = ''        
         manager.edit_product(id)
@@ -142,7 +142,6 @@ while True:
     case "5":
 
       # Sap xep hang hoa theo tong tien nhap hang
-
       try:
         sap_xep = input("Tang hay giam: ")
         while True:
@@ -166,13 +165,11 @@ while True:
 
       # Danh sach hang hoa sap het han su dung
       # Co ham se them vao sau
-
       pass
 
     case "7":
 
       # Top 5 hang hoa co gia nhap cao nhat, thap nhat
-
       try:
         manager.show_top5_high_low_pricein()
       except Exception:
@@ -182,20 +179,17 @@ while True:
 
       # Hien thi danh sach hang can nhap 
       # Co ham se them sau 
-
       pass
 
     case "9":
 
       # Nhap hang 
       # Co ham se them sau 
-
       pass
     
     case "10":
 
       # Xoa hang hoa
-
       try:
         id = ''
         manager.del_product(id)
@@ -205,16 +199,12 @@ while True:
     case "11":
 
       # Thoat chuong trinh
-
       print("Da thoat chuong trinh")
       break
 
-    case default:
-      choice  = input("Hay lua chon lai: ")
-
-x = [
-  {"id" : 1, "name" : "103"},
-  {"id" : 2, "name" : "103"},
-  {"id" : 4, "name" : "103"},
-  {"id" : 3, "name" : "103"},
-]
+# x = [
+#   {"id" : 1, "name" : "103"},
+#   {"id" : 2, "name" : "103"},
+#   {"id" : 4, "name" : "103"},
+#   {"id" : 3, "name" : "103"},
+# ]

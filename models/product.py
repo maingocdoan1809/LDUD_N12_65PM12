@@ -165,10 +165,10 @@ class ManageProduct:
     self.__import_orders.append(orderproduct)
 
 
-p = Product(name="Hellp", price_in=10214, price_out=1324, 
-             nbr_products=102, mfg=datetime.datetime.now(), 
-             exp=datetime.datetime.now())
-manager = ManageProduct()
+# p = Product(name="Hellp", price_in=10214, price_out=1324, 
+#              nbr_products=102, mfg=datetime.datetime.now(), 
+#              exp=datetime.datetime.now())
+# manager = ManageProduct()
 
-manager.add_product(p)
-print(manager.get_products()) 
+# manager.add_product(p)
+# print(manager.get_products()) 
