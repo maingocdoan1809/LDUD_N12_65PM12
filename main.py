@@ -44,7 +44,7 @@ while True:
 
         price_out = int(input("Gia ban hang: "))
         while True:
-          if price_out is not isinstance(price_out, int) or price_out < 0:
+          if price_out is not None and ( not isinstance(price_out, int) or price_out < 0 ):
             price_out = int(input("Nhap lai gia ban hang: "))
           else:
             break
@@ -53,7 +53,7 @@ while True:
 
         price_in = input("Gia nhap: ")
         while True:
-          if price_in is not isinstance(price_in, int) or price_in < 0:
+          if price_in is not None and ( not isinstance(price_in, int) or price_in < 0 ):
             price_in = int(input("Nhap lai gia nhap hang: "))
           else:
             break
@@ -95,7 +95,7 @@ while True:
 
         # Them hang hoa #
 
-        pd = product.Product(name,price_out,price_in,nbr_product,exp,mfg)
+        pd = product.Product(name,price_out,price_in,nbr_product,exp_date,mfg_date)
         if manager.add_product(pd):
           print("Them thanh cong")
         else:

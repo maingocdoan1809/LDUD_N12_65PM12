@@ -78,7 +78,7 @@ class ManageProduct:
     if not isinstance(product, Product):
       raise ValueError("Param must be a type of Product")
     self.__products.append(product)
-    # return True
+    return True
 
   def get_products(self):
     products = []
