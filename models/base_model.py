@@ -38,6 +38,7 @@ class Exportable:
     if price_out is not None and (not isinstance(price_out, int) or price_out < 0 ):
           raise ValueError("You must provide a number representing the number of price out.") 
     self._price_out = price_out
+
 class Expirable:
   def __init__(self, exp=None, mfg=None ) -> None:
     if exp is not None and not isinstance(exp, datetime.datetime):
@@ -46,7 +47,7 @@ class Expirable:
     if mfg is not None and not isinstance(mfg, datetime.datetime):
       raise ValueError("You must provide a datetime for MFG")
     
-    if exp is not None and mfg is not None and  exp > mfg:
+    if exp is not None and mfg is not None and  exp < mfg:
       raise ValueError("MFG must be greater than or equal to EXP")
 
     self._exp = exp
@@ -59,7 +60,7 @@ class Expirable:
     return self._mfg
   
   def set_exp(self, exp):
-      if exp is not None and self._mfg is not None and  exp > self._mfgmfg:
+      if exp is not None and self._mfg is not None and  exp < self._mfg:
         raise ValueError("MFG must be greater than or equal to EXP")
       
       self._exp = exp
