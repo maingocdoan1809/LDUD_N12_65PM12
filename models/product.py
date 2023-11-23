@@ -1,6 +1,6 @@
 import uuid
 import datetime
-import base_model as base
+import models.base_model as base
 class Product(base.BaseProduct, base.Expirable, base.Importable, base.Exportable, base.Printable):
   
   @staticmethod
