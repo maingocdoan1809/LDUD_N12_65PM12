@@ -127,7 +127,11 @@ while True:
           else:
             break     
         tim_kiem_theo_ten = manager.search_by_name(name)
-        print(tim_kiem_theo_ten) 
+        if not tim_kiem_theo_ten or len(tim_kiem_theo_ten) == 0:
+          print("Khong co san pham nao duoc tim thay")
+        else:
+          print("Da tim thay:")
+          print(tim_kiem_theo_ten) 
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
@@ -138,6 +142,7 @@ while True:
       # Sua thong tin hang hoa theo id
       try:        
         id = input("Nhap ma hang hoa: ")        
+        
         manager.edit_product(id)
       except Exception as e:
         print("------------------------------")
@@ -160,8 +165,12 @@ while True:
           else:
             sap_xep = input("Nhap lai: ")
         
-          list = manager.sort_by_price_in(reverse)
-          print(list)
+          list_x = manager.sort_by_price_in(reverse)
+          if not list_x or len(list_x) == 0:
+            print("Khong co san pham nao.")
+          else:
+            print("Sau khi sap xep: ")
+            print(list_x)
       
       except Exception as e:
         print("------------------------------")
@@ -178,7 +187,16 @@ while True:
 
       # Top 5 hang hoa co gia nhap cao nhat, thap nhat
       try:
-        manager.show_top5_high_low_pricein()
+        result =  manager.show_top5_high_low_pricein()
+        if result:
+          high = result[0]
+          low = result[1]
+          print("Top 5 cao nhat:")
+          print(high)
+          print("Top 5 thap nhat:")
+          print(low)
+        else:
+          print("Khong co hang hoa nao.")
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
@@ -201,7 +219,11 @@ while True:
       # Xoa hang hoa
       try:
         id = input("Nhap ma hang: ")
-        manager.del_product(id)
+        try:
+          manager.del_product(id)
+          print("Da xoa thanh cong")
+        except Exception as err:
+          print(err)
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
