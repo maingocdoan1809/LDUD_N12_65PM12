@@ -173,6 +173,8 @@ class ManageProduct:
       else:
         ValueError("ID product not exist")
   #12
-  def add_import_order(self, orderproduct):
-    self.__import_orders.append(orderproduct)
+  def add_import_order(self, product_list:[], import_date: datetime):
+    self.__import_orders.append([product_list, import_date])
+    print(product_list, import_date)
+    
 
