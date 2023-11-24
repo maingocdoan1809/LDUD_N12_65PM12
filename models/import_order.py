@@ -1,7 +1,7 @@
 import uuid
 import datetime
-import base_model as base
-import product as pd
+import models.base_model as base
+import models.product as pd
 class ImportOrder(base.Indexable, base.Printable):
 
 

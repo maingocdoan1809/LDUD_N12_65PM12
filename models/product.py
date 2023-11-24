@@ -1,6 +1,7 @@
 import uuid
 import datetime
-import base_model as base
+import models.base_model as base
+
 class Product(base.BaseProduct, base.Expirable, base.Importable, base.Exportable, base.Printable):
   
   @staticmethod
@@ -83,7 +84,15 @@ class ManageProduct:
     products = []
     for product in self.__products:
       products.append(product.json())
-    return products
+    # return products
+    for product in products:
+      print("Ma hang: ",product["id"])
+      print("Ten hang: ",product["name"])
+      print("Gia ban: ", product["price_out"])
+      print("Gia nhap: ",product["price_in"])
+      print("Ton kho: ",product["nbr_products"])
+      print("Ngay san xuat: ",product["mfg"])
+      print("Ngay het han: ",product["exp"])
   
   def search_by_name(self, name : str):
     products = []
@@ -175,4 +184,13 @@ class ManageProduct:
   #12
   def add_import_order(self, orderproduct):
     self.__import_orders.append(orderproduct)
+
+
+# p = Product(name="Hellp", price_in=10214, price_out=1324, 
+#              nbr_products=102, mfg=datetime.datetime.now(), 
+#              exp=datetime.datetime.now())
+# manager = ManageProduct()
+
+# manager.add_product(p)
+# print(manager.get_products()) 
 
