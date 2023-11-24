@@ -2,6 +2,14 @@ import re
 from datetime import datetime
 import models.product as product
 
+
+def check_positive_integer(num):
+  num = int(num)
+  if num < 0:
+    raise ValueError(f'{num} is negative number')
+  return num
+
+
 def display_menu():
   print("----------------------------------------------------------------------------------------------------------")
   print("-                                                                                                        -")
@@ -38,68 +46,37 @@ while True:
       try:
 
         # Nhap ten #
-        name = input("Ten: ")
-        while True:
-          if name is None:  
-            name = input("Nhap lai ten: ")
-          else:
-            break
+        name = product.get_user_input("Nhap ten: ", parse_to=str, error_message="Loi, xin moi nhap lai ten.")
 
         # Nhap gia ban #
-        price_out = int(input("Gia ban hang: "))
-        while True:
-          if price_out is None:
-            price_out = int(input("Nhap lai gia ban hang: "))
-          elif price_out is not None and ( not isinstance(price_out, int) or price_out < 0 ):
-            price_out = int(input("Nhap lai gia ban hang: "))
-          else:
-            break
+        price_out = product.get_user_input("Nhap gia ban: ", parse_to=check_positive_integer, error_message="Gia ban khong hop le, xin moi nhap lai.")
 
         # Nhap gia nhap #
-        price_in = int(input("Gia nhap hang: "))
-        while True:
-          if price_in is None:
-            price_in = int(input("Nhap lai gia nhap hang: "))
-          elif price_in is not None and ( not isinstance(price_in, int) or price_in < 0 ):
-            price_in = int(input("Nhap lai gia nhap hang: "))
-          else:
-            break
+        price_in = product.get_user_input("Nhap gia nhap: ", parse_to=check_positive_integer, error_message="Gia nhap khong hop le, xin moi nhap lai.")
 
         # Nhap so luong ton kho #
-        nbr_product = int(input("Nhap so luong ton kho: "))
+        nbr_product = product.get_user_input("Nhap so luong ton kho: ", parse_to=check_positive_integer, error_message="So luong khong hop le, xin moi nhap lai.")
+
+
+        # Nhap ngay san xuat #
+        mfg = product.get_user_input("Nhap ngay san xuat (dd/mm/yyyy): ", parse_to=product.date, error_message= "Ngay san xuat khong hop le, xin moi nhap lai.")
+
+        # Nhap ngay het han #
         while True:
-          if nbr_product is not None and (not isinstance(nbr_product, int) or nbr_product < 0 ):
-            nbr_product = int(input("Nhap lai so luong ton kho: "))
+          exp = product.get_user_input("Nhap ngay het han (dd/MM/yyyy): ", parse_to=product.date, error_message="Ngay het han khong hop le, xin moi nhap lai.")
+          if exp < mfg:
+            print("Error: Expired date must be greater than manufacturing date.")
           else:
             break
 
-        # Nhap ngay het han #
-        exp = input("Nhap ngay het han (dd/MM/yyyy): ")
-        while True:
-
-          # K dung pattern, nhap lai
-          try:
-            exp_date = datetime.strptime(exp,'%d/%m/%Y')
-            break            
-          except:
-            exp = input("Nhap lai ngay het han (dd/MM/yyyy): ")
-
-        # Nhap ngay san xuat #
-        mfg = input("Nhap ngay san xuat (dd/mm/yyyy): ")
-        while True:
-
-          # K dung pattern, nhap lai
-          try:
-            mfg_date = datetime.strptime(mfg,'%d/%m/%Y')
-            break
-          except:
-            mfg = input("Nhap lai ngay san xuat (dd/MM/yyyy): ")
-
+        
         # Them hang hoa #
-        pd = product.Product(name,price_out,price_in,nbr_product,exp_date,mfg_date)
+        pd = product.Product(name,price_out,price_in,nbr_product,exp=exp,mfg=mfg)
         #print(pd._name)
 
         manager.add_product(pd)
+
+        print("Them thanh cong.")
 
       except Exception as e:
         print("------------------------------")
@@ -112,7 +89,6 @@ while True:
       try:
         print("Day la danh sach hang hoa: ") 
         x = manager.get_products()
-        print(x)
       except Exception as e:
         print(e)
 
@@ -155,11 +131,11 @@ while True:
       try:
         sap_xep = input("Tang hay giam: ")
         while True:
-          if re.match('[Tt]ang',sap_xep) or re.match('[Gg]iam',sap_xep):
-            if re.match('[Tt]ang',sap_xep):
+          if sap_xep.lower() in ["tang", 'giam']:
+            if sap_xep.lower() == 'tang':
               reverse = True
               break         
-            elif re.match('[Gg]iam',sap_xep):
+            else:
               reverse = False
               break              
           else:

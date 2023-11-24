@@ -66,8 +66,20 @@ class OrderProduct(base.BaseProduct, base.Importable):
     
   
   
+def date(str_like_date):
+  return datetime.datetime.strptime(str_like_date, '%d/%m/%Y')
 
-    
+def get_user_input(message, parse_to=int, error_message="Invalid data, try again."):
+  while True:
+    try:
+      data = parse_to(input(message))
+      return data
+    except Exception as err:
+      if (error_message):
+        print(error_message)
+      else:
+        print(err)
+
 
 
 class ManageProduct:
@@ -97,7 +109,7 @@ class ManageProduct:
   def search_by_name(self, name : str):
     products = []
     for product in self.__products:
-      if product.get_name() and name in product.get_name().lower():
+      if product.get_name() and name.lower() in product.get_name().lower():
          products.append(product.json())
     return products
   
@@ -131,7 +143,7 @@ class ManageProduct:
     for product in self.sort_by_price_in(self.__products):
         high_product = product[:5]
         low_product= product[-5:]
-    return high_product
+    return (high_product, low_product)
 
   #8: DONE
   def set_new_price_out(self):
@@ -151,36 +163,44 @@ class ManageProduct:
     return exp_product
   #10: DONE
   def edit_product(self, id:str):
-    for product in self.__products:
-      if product.get_id()==id:
-        new_name = input("Enter new product name: ")
-        new_price_in = int(input("Enter new price in: "))
-        new_price_out = int(input("Enter new price out: "))
-        new_nbr_products = int(input("Enter new number of product: "))
-        exp = input("Enter expiration day (dd/MM/yyyy): ")
-        new_exp = datetime.datetime.strptime(exp, '%d/%m/%Y')
-        formated_new_exp= datetime.datetime.strftime(new_exp, '%d/%m/%Y')
-        mfg = input("Enter mfg day (dd/MM/yyyy): ")
-        new_mfg = datetime.datetime.strptime(mfg, '%d/%m/%Y')
-        formated_new_mfg = datetime.datetime.strftime(new_mfg, '%d/%m/%Y')
 
-        product._name = new_name 
-        product._price_out = new_price_in
-        product._price_in = new_price_out
-        product._nbr_products = new_nbr_products
-        product._exp = formated_new_exp
-        product._mfg = formated_new_mfg 
-        return product      
-      else:
-        return ValueError("ID product not exist")
+    product = None
+
+    for p in self.__products:
+      if p.get_id() == id:
+        product = p
+        break
+
+    if product is None:
+      raise ValueError("ID product not exist")
+
+    new_name = get_user_input("Enter new product name: ", parse_to=str, error_message="Invalid name, try again!")
+    new_price_in = get_user_input("Enter new price in: ", parse_to=int, error_message="Invalide price, it must be an integer.")
+    new_price_out = get_user_input("Enter new price out: ", parse_to=int, error_message="Invalide price, it must be an integer")
+    new_nbr_products = get_user_input("Enter new number of product: ", parse_to=int, error_message="Invalide, number of products must be an integer")
+    exp = get_user_input("Enter expiration day (dd/MM/yyyy): ", parse_to=date, error_message="You must enter a valid date formated as dd/MM/yyyy")
+
+    mfg = get_user_input("Enter manufacturing day (dd/MM/yyyy): ", parse_to=date, error_message="You must enter a valid date formated as dd/MM/yyyy")
+    product._name = new_name 
+    product._price_out = new_price_in
+    product._price_in = new_price_out
+    product._nbr_products = new_nbr_products
+    product._exp = exp
+    product._mfg = mfg 
+    return product      
+
   #11
   def del_product(self, id:str):
-    for product in self.__products:
-      if product.get_id()==id:
-        self.__products.remove(product)
-        return self.__products
-      else:
-        ValueError("ID product not exist")
+    product = None
+
+    for p in self.__products:
+      if p.get_id() == id:
+        product = p
+        break
+    if product is None:
+      ValueError("ID product not exist")
+    else:
+      self.__products.remove(product)
   #12
   def add_import_order(self, orderproduct):
     self.__import_orders.append(orderproduct)
