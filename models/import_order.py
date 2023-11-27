@@ -11,19 +11,20 @@ class ImportOrder(base.Indexable, base.Printable):
       raise ValueError ("Import date must be a datetime object")
     
     for product in product_list:
-      if not isinstance(product, pd.Product):
-        raise ValueError ("Product in production must be of type Product")
+      if not isinstance(product, pd.OrderProduct):
+        raise ValueError ("Product in production must be of type OrderProduct")
     for product in product_list:
-      if not isinstance(product, pd.Product):
-        raise ValueError ("Product in production must be of type Product")
-
+      if not isinstance(product, pd.OrderProduct):
+        raise ValueError ("Product in production must be of type OrderProduct")
+    #type OrderProduct
     self.__product_list = product_list
+    #type datetime
     self.__import_date = import_date 
 
   def add_product(self, products):
     for product in products:
-      if not isinstance(product, pd.Product):
-        raise ValueError ("Product in products must be of type Product")
+      if not isinstance(product, pd.OrderProduct):
+        raise ValueError ("Product in products must be of type OrderProduct")
       self.__product_list.append(product)
 
 

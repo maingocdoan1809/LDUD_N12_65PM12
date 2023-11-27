@@ -84,7 +84,9 @@ def get_user_input(message, parse_to=int, error_message="Invalid data, try again
 
 class ManageProduct:
   def __init__(self):
+    # type Product
     self.__products = []
+    # type ImportOrder
     self.__import_orders = []
 
   def add_product(self, product):
@@ -114,7 +116,18 @@ class ManageProduct:
     return products
   
   def sum_price_in(self):
-    return sum(product.get_price_in() * product.get_nbr_products for product in self.__products)
+
+    data = dict()
+    for order in self.__import_orders:
+      for p in order.get_product_list():
+        old_data = data[p.get_id()]
+        if not old_data:
+          old_data = 0
+        data[p.get_id()] = old_data + p.get_final_price() * p.get_nbr_products()
+    return data
+
+
+    
   
   def search_import_orders(self, month : int, year : int):
     if month <= 0 or month > 12:
