@@ -202,8 +202,10 @@ class ManageProduct:
     else:
       self.__products.remove(product)
   #12
-  def add_import_order(self, orderproduct):
-    self.__import_orders.append(orderproduct)
+  def add_import_order(self, product_list:[], import_date: datetime):
+    self.__import_orders.append([product_list, import_date])
+    print(product_list, import_date)
+    
 
 
 # p = Product(name="Hellp", price_in=10214, price_out=1324, 
