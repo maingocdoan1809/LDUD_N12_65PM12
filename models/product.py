@@ -202,10 +202,39 @@ class ManageProduct:
     else:
       self.__products.remove(product)
   #12
-  def add_import_order(self, product_list:[], import_date: datetime):
-    self.__import_orders.append([product_list, import_date])
-    print(product_list, import_date)
-    
+  def add_import_order(self, import_date, product_list):
+    self.__import_orders.append([import_date, product_list])
+
+
+  def input_and_add_import_order(self):
+        import_date = input("Nhap ngay nhap hang: ")
+        product_list = []
+
+        while True:
+            product_name = input("Nhap ten hang (nhap 'exit' de ket thuc): ")
+            if product_name.lower() == 'exit':
+                break
+
+            price = float(input("Nhap gia nhap: "))
+            quantity = int(input("Nhap so luong nhap: "))
+
+            total_price = price * quantity
+
+            product_list.append([product_name, price, quantity, total_price])
+        
+        self.add_import_order(import_date, product_list)  
+  def print_invoices(self):
+        for invoice in self.__import_orders:
+            print("\nNgay nhap hang:", invoice[0])
+            print("----Danh sach don hang---------")
+            for item in invoice[1]:
+                print("Ten hang:", item[0])
+                print("Gia nhap:", item[1])
+                print("So luong nhap:", item[2])
+                print("Thanh tien:", item[3])
+                print("Tong tien:", item[4])
+                print("-----------------------------")
+
 
 
 # p = Product(name="Hellp", price_in=10214, price_out=1324, 
