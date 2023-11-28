@@ -177,42 +177,43 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-
+    # case nay toi dang de tam nham in don hang de nhin cho truc quan thoi 
     case 8:
-
       # Hien thi danh sach hang can nhap 
       # Co ham se them sau 
+      try:
+        print("Day la danh sach don hang: ") 
+        x = manager.print_invoices()
+      except Exception as e:
+        print(e)
       pass
-
+    #validate ho toi voi, toi xem not 6 7
     case 9:
-
       # Nhap hang 
       # Co ham se them sau 
-      ngaynhap = product.get_user_input("Nhap ngay nhap hang (dd/mm/yyyy): ", parse_to=product.date, error_message= "Ngay nhap khong hop le, xin moi nhap lai.")
+      import_date = input("Nhap ngay nhap hang: ")
+      product_list = []
 
-    # create an empty list for the products
-      products = []
-
+      while True:
+      # create an empty list for the products
       # ask the user to enter the number of products
-      n = int(input("Nhap so hang hoa: "))
-
-      # loop through the number of products
-      for i in range(n):
-          # ask the user to enter the name and price of each product
-          name = input(f"ten hang {i+1}: ")
-          price = int(input(f"Gia nhạp {i+1}: "))
-          nbr_product_in = int(input(f"So luong nhap {i+1}: "))
-          thanhtien = price * nbr_product_in
-          tongtien = thanhtien
+        product_name = input("Nhap ten hang (nhap 'exit' de ket thuc): ")
+        if product_name.lower() == 'exit':
+          break
+        # loop through the number of products
+          # to enter the name and price of each product
+        price = int(input(f"Giá nhập"))
+        nbr_product_in = int(input(f"Số lượng"))
+        thanhtien = price * nbr_product_in
+        tongtien = thanhtien
           # create a dictionary for the product
-          product = [name, price, nbr_product_in, thanhtien, tongtien]
-
-          # add the product to the list of products
-          products.append(product)
-      manager.add_import_order(product, ngaynhap)
-
+        product = [product_name, price, nbr_product_in, thanhtien, tongtien]
+        # add the product to the list of products
+        product_list.append(product)
+      manager.add_import_order(import_date, product_list)
       pass
-    
+
+
     case 10:
 
       # Xoa hang hoa
