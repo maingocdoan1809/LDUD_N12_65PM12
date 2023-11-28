@@ -96,7 +96,6 @@ class ManageProduct:
     products = []
     for product in self.__products:
       products.append(product.json())
-    # return products
     for product in products:
       print("Ma hang: ",product["id"])
       print("Ten hang: ",product["name"])
@@ -105,7 +104,9 @@ class ManageProduct:
       print("Ton kho: ",product["nbr_products"])
       print("Ngay san xuat: ",product["mfg"])
       print("Ngay het han: ",product["exp"])
-  
+      print("\n")
+    return products
+    
   def search_by_name(self, name : str):
     products = []
     for product in self.__products:
@@ -114,8 +115,22 @@ class ManageProduct:
     return products
   
   def sum_price_in(self):
-    return sum(product.get_price_in() * product.get_nbr_products for product in self.__products)
-  
+    total_prices = {}
+    for entry in self.__import_orders:
+    # Lấy ngày và danh sách hàng hoá từ mỗi mục
+      date, product_list = entry
+    # Lặp qua từng hàng hoá trong danh sách hàng hoá
+      for product in product_list:
+          # Lấy tên hàng hoá và giá trị cuối cùng (tổng số tiền)
+        product_name, _, _, _, total_price = product
+
+        if product_name in total_prices:
+          total_prices[product_name] += total_price
+            # Nếu hàng hoá chưa có trong từ điển, thêm nó vào với tổng tiền nhập
+        else:
+          total_prices[product_name] = total_price
+    return total_prices
+
   def search_import_orders(self, month : int, year : int):
     if month <= 0 or month > 12:
       raise ValueError('Month must be between 1 and 12')
@@ -131,35 +146,43 @@ class ManageProduct:
 
     return found_orders
   
-  def sort_by_price_in(self, reverse=False):
-    sorted_orders = sorted(self.__import_orders, 
-                           lambda x, y: (x.get_price_in() * x.get_nbr_products) > (y.get_price_in() * y.get_nbr_products)
-                           ,reverse=reverse)
+  def sort_sum_price_in(self, reverse=False):
+    sorted_data = sorted(self.sum_price_in().items(), key=lambda x: x[1], reverse=reverse)    
+    
+    return dict(sorted_data)
 
   #7
   def show_top5_high_low_pricein(self):
-    high_product=[]
-    low_product=[]
-    for product in self.sort_by_price_in(self.__products):
-        high_product = product[:5]
-        low_product= product[-5:]
-    return (high_product, low_product)
-
+    product_list = list(self.sort_sum_price_in().items())
+    if len(product_list)==0:
+      print("không có hàng hoá")
+    else:
+      high_product = product_list[:5]
+      low_product = product_list[-5:]
+      print ("top 5 hang hoa co tong nhap cao nhat va thap nhat: ")
+      for item in high_product:
+        product_name, total_price = item
+        print(f"Tên sản phẩm: {product_name}, Tổng giá: {total_price}")
+      print("\n")
+      for item in low_product:
+        product_name, total_price = item
+        print(f"Tên sản phẩm: {product_name}, Tổng giá: {total_price}")
+    return product_list
   #8: DONE
   def set_new_price_out(self):
     exp_product=[]
     for product in self.__products:
-      date_about_to_exp = product.get_mfg() - product.get_exp()
+      date_about_to_exp = product.get_exp() - product.get_mfg()
       if (date_about_to_exp.days < 14):
-        new_price_in = product.get_price_out()*0.45
-        product._price_out = new_price_in
+        new_price_out = product.get_price_out()*0.45
+        product._price_out = new_price_out
         exp_product.append(product)
       elif (14 < date_about_to_exp.days <= 31):
-        new_price_in = product.get_price_out()*0.8
-        product._price_out = new_price_in
+        new_price_out = product.get_price_out()*0.8
+        product._price_out = new_price_out
         exp_product.append(product)
       else:
-        return
+        print("Cac hang hoa van con han su dung")
     return exp_product
   #10: DONE
   def edit_product(self, id:str):
@@ -204,36 +227,19 @@ class ManageProduct:
   #12
   def add_import_order(self, import_date, product_list):
     self.__import_orders.append([import_date, product_list])
-
-
-  def input_and_add_import_order(self):
-        import_date = input("Nhap ngay nhap hang: ")
-        product_list = []
-
-        while True:
-            product_name = input("Nhap ten hang (nhap 'exit' de ket thuc): ")
-            if product_name.lower() == 'exit':
-                break
-
-            price = float(input("Nhap gia nhap: "))
-            quantity = int(input("Nhap so luong nhap: "))
-
-            total_price = price * quantity
-
-            product_list.append([product_name, price, quantity, total_price])
-        
-        self.add_import_order(import_date, product_list)  
+  
   def print_invoices(self):
-        for invoice in self.__import_orders:
-            print("\nNgay nhap hang:", invoice[0])
-            print("----Danh sach don hang---------")
-            for item in invoice[1]:
-                print("Ten hang:", item[0])
-                print("Gia nhap:", item[1])
-                print("So luong nhap:", item[2])
-                print("Thanh tien:", item[3])
-                print("Tong tien:", item[4])
-                print("-----------------------------")
+    for invoice in self.__import_orders:
+      print("\nNgay nhap hang:", invoice[0])
+      print("----Danh sach don hang---------")
+      for item in invoice[1]:
+        print("Ten hang:", item[0])
+        print("Gia nhap:", item[1])
+        print("So luong nhap:", item[2])
+        print("Thanh tien:", item[3])
+        print("Tong tien:", item[4])
+        print("\n")
+      print("-----------------------------")
 
 
 
