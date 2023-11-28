@@ -145,15 +145,21 @@ class ManageProduct:
     return found_orders
   
   def sort_by_price_in(self, reverse=False):
-    sorted_orders = sorted(self.__import_orders, 
-                           lambda x, y: (x.get_price_in() * x.get_nbr_products) > (y.get_price_in() * y.get_nbr_products)
+    sorted_orders = []
+    try:
+      sorted_orders = sorted(self.__import_orders
                            ,reverse=reverse)
+
+    except Exception as err:
+      print(err)
+    return sorted_orders
 
   #7
   def show_top5_high_low_pricein(self):
     high_product=[]
     low_product=[]
-    for product in self.sort_by_price_in(self.__products):
+
+    for product in self.sort_by_price_in(None):
         high_product = product[:5]
         low_product= product[-5:]
     return (high_product, low_product)
