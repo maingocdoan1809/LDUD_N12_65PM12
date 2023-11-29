@@ -17,7 +17,7 @@ def display_menu():
   print("-                                                                                                        -")
   print("----------------------------------------------------------------------------------------------------------")
   print("-                                                |                                                       -")
-  print("- 1. Them moi hang hoa                           |    7. Top hang hoa tong tien nhap cao nhat            -")
+  print("- 1. Them moi hang hoa                           |    7. Top hang hoa tong tien nhap cao nhat, thap nhat            -")
   print("- 2. Danh sach hang hoa                          |    8. Hien thi danh sach hang can nhap                -")
   print("- 3. Tim kiem hang hoa theo ten                  |    9. Nhap hang                                       -")
   print("- 4. Sua thong tin san pham                      |    10. Xoa hang                                       -")
@@ -33,9 +33,15 @@ while True:
   display_menu()
   
   # Nhap lua chon #
-  choice = int(input("Lua chon: "))
-  while choice is None or (not isinstance(choice, int) or choice <= 0 or choice >= 12):
-      choice = int(input("Hay chon lai: "))
+  while True:
+    try:
+        choice = int(input("Lua chon: "))
+        if choice <= 0 or choice >= 12:
+            raise ValueError("Vui long chon cac chuc nang tu 1 -> 12.")
+        break
+    
+    except ValueError:
+        print("Vui long chon cac chuc nang tu 1 -> 12.")
   
   # Xu ly lua chon #
   match choice:
@@ -82,6 +88,7 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
+      break
 
     case 2:
 
@@ -91,6 +98,7 @@ while True:
         x = manager.get_products()
       except Exception as e:
         print(e)
+      break
 
     case 3:
 
@@ -112,10 +120,10 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-
+      break
+     
+    # Sua thong tin hang hoa theo id
     case 4:
-
-      # Sua thong tin hang hoa theo id
       try:        
         id = input("Nhap ma hang hoa: ")        
         
@@ -124,75 +132,84 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-
+      break
+    
+    # Sap xep hang hoa theo tong tien nhap hang
     case 5:
-
-      # Sap xep hang hoa theo tong tien nhap hang
       try:
         sap_xep = input("Tang hay giam: ")
         while True:
           if sap_xep.lower() in ["tang", 'giam']:
             if sap_xep.lower() == 'tang':
-              reverse = True
+              reverse = False
               break         
             else:
-              reverse = False
-              break              
+              reverse = True
+              break
           else:
             sap_xep = input("Nhap lai: ")
         
-          list_x = manager.sort_by_price_in(reverse)
-          if not list_x or len(list_x) == 0:
-            print("Khong co san pham nao.")
-          else:
-            print("Sau khi sap xep: ")
-            print(list_x)
-      
+        list_x = manager.sort_sum_price_in(reverse)
+        if not list_x or len(list_x) == 0:
+          print("Khong co san pham nao.")
+        else:
+          print("Sau khi sap xep: ")
+          for product_name, total_price in list_x.items():
+            print(product_name, ": ", total_price)
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-
+      break
+      
+    # Danh sach hang hoa sap het han su dung
     case 6:
+      exp_products = manager.set_new_price_out()
+      if len(exp_products)==0:
+        print("khong co hang hoa")
+      else: 
+        print("Cac hang hoa sap het han su dung")
+        for product in exp_products:
+          date_about_to_exp = product.get_exp() - product.get_mfg()
+          print(f"Tên: {product.get_name()}, Giá bán mới: {product.get_price_out()}, Còn {date_about_to_exp}")
+      break
 
-      # Danh sach hang hoa sap het han su dung
-      # Co ham se them vao sau
-      pass
-
+    # Top 5 hang hoa co gia nhap cao nhat, thap nhat
     case 7:
-
-      # Top 5 hang hoa co gia nhap cao nhat, thap nhat
       try:
         result =  manager.show_top5_high_low_pricein()
-        if result:
-          high = result[0]
-          low = result[1]
-          print("Top 5 cao nhat:")
-          print(high)
-          print("Top 5 thap nhat:")
-          print(low)
-        else:
-          print("Khong co hang hoa nao.")
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-    # case nay toi dang de tam nham in don hang de nhin cho truc quan thoi 
+      break
+
+    #đang để tạm là hàm in hoá đơn
     case 8:
       # Hien thi danh sach hang can nhap 
       # Co ham se them sau 
       try:
-        print("Day la danh sach don hang: ") 
-        x = manager.print_invoices()
+        x = manager.need_import_later()
+        if len(x) == 0:
+          print("Chua du du lieu thong ke")
+          pass
+        print("Day la danh sach cac ID hang hoa can nhap: ") 
+        print(x)
       except Exception as e:
         print(e)
-      pass
-    #validate ho toi voi, toi xem not 6 7
+      break
+
     case 9:
       # Nhap hang 
-      # Co ham se them sau 
-      import_date = input("Nhap ngay nhap hang: ")
       product_list = []
+      while True:
+        import_date = input("Nhap ngay nhap hang (dd/mm/yy): ")
+        try:
+            # Chuyển đổi ngày từ chuỗi nhập vào
+          datetime_object = datetime.strptime(import_date, "%d/%m/%Y")
+          break
+        except ValueError:
+          print("Ngay nhap khong hop le. Vui long nhap lai theo dinh dang dd/mm/yy.")
 
       while True:
       # create an empty list for the products
@@ -200,10 +217,24 @@ while True:
         product_name = input("Nhap ten hang (nhap 'exit' de ket thuc): ")
         if product_name.lower() == 'exit':
           break
-        # loop through the number of products
-          # to enter the name and price of each product
-        price = int(input(f"Giá nhập"))
-        nbr_product_in = int(input(f"Số lượng"))
+
+        while True:
+          try:
+            price = int(input("Nhap gia: "))
+            if price < 0:
+              raise ValueError("Gia phai la so nguyen duong.")
+            break
+          except ValueError:
+            print("Gia nhap khong hop le. Vui long nhap lai.")
+            
+        while True:
+          try:
+            nbr_product_in = int(input("Nhap so luong: "))
+            if nbr_product_in < 0:
+              raise ValueError("So luong phai la so nguyen duong.")
+            break
+          except ValueError:
+              print("So luong nhap khong hop le. Vui long nhap lai.")
         thanhtien = price * nbr_product_in
         tongtien = thanhtien
           # create a dictionary for the product
@@ -211,7 +242,9 @@ while True:
         # add the product to the list of products
         product_list.append(product)
       manager.add_import_order(import_date, product_list)
-      pass
+      
+      print("Nhap hang thanh cong.")
+      break
 
 
     case 10:
@@ -228,7 +261,7 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-
+      break
     case 11:
 
       # Thoat chuong trinh

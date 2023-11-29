@@ -1,6 +1,3 @@
-class IntTe:
-  def __init__(self, data) -> None:
-    self.data = data
-x = [IntTe(3), IntTe(244), IntTe(2454), IntTe(1)]
+x = [1,1,4,4,23,5,46,456,5,67]
 
-print(sorted(x, key=lambda x : x.data, reverse=True))
+print(x[-5:3])
