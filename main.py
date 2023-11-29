@@ -36,7 +36,7 @@ while True:
   while True:
     try:
         choice = int(input("Lua chon: "))
-        if choice <= 0 or choice >= 11:
+        if choice <= 0 or choice > 11:
             raise ValueError("Vui long chon cac chuc nang tu 1 -> 11.")
         break
     
