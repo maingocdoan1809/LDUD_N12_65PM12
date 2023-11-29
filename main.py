@@ -88,7 +88,6 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-      break
 
     case 2:
 
@@ -98,7 +97,6 @@ while True:
         x = manager.get_products()
       except Exception as e:
         print(e)
-      break
 
     case 3:
 
@@ -120,7 +118,6 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-      break
      
     # Sua thong tin hang hoa theo id
     case 4:
@@ -132,7 +129,6 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-      break
     
     # Sap xep hang hoa theo tong tien nhap hang
     case 5:
@@ -160,7 +156,6 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-      break
       
     # Danh sach hang hoa sap het han su dung
     case 6:
@@ -172,7 +167,6 @@ while True:
         for product in exp_products:
           date_about_to_exp = product.get_exp() - product.get_mfg()
           print(f"Tên: {product.get_name()}, Giá bán mới: {product.get_price_out()}, Còn {date_about_to_exp}")
-      break
 
     # Top 5 hang hoa co gia nhap cao nhat, thap nhat
     case 7:
@@ -182,7 +176,6 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-      break
 
     #đang để tạm là hàm in hoá đơn
     case 8:
@@ -197,7 +190,6 @@ while True:
         print(x)
       except Exception as e:
         print(e)
-      break
 
     case 9:
       # Nhap hang 
@@ -244,7 +236,6 @@ while True:
       manager.add_import_order(import_date, product_list)
       
       print("Nhap hang thanh cong.")
-      break
 
 
     case 10:
@@ -261,7 +252,6 @@ while True:
         print("------------------------------")
         print("Error:",e)
         print("------------------------------")
-      break
     case 11:
 
       # Thoat chuong trinh
