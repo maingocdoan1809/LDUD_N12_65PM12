@@ -1,7 +1,7 @@
 import uuid
 import datetime
 import models.base_model as base
-
+import models.import_order as ipo
 class Product(base.BaseProduct, base.Expirable, base.Importable, base.Exportable, base.Printable):
   
   @staticmethod
@@ -124,6 +124,7 @@ class ManageProduct:
     _sum = {}
 
     for i in self.__import_orders:
+      
       for j in i.get_product_list():
         x = _sum.get(j.get_id(), 0)
         _sum[j.get_id()] = x + j.get_final_price()
@@ -300,7 +301,7 @@ class ManageProduct:
       self.__products.remove(product)
   #12
   def add_import_order(self, import_date, product_list):
-    self.__import_orders.append([import_date, product_list])
+    self.__import_orders.append(ipo.ImportOrder(product_list=product_list, import_date=import_date))
   
   def print_invoices(self):
     for invoice in self.__import_orders:
