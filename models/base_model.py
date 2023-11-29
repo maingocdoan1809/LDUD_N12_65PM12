@@ -81,9 +81,9 @@ class Indexable:
   
 class BaseProduct(Indexable):
 
-  def __init__(self, name ) -> None:
+  def __init__(self, name : str) -> None:
     Indexable.__init__(self)
-    if name == None:
+    if name == None or name.strip() == '':
       raise ValueError("Ten hang hoa khong hop le")
     self._name = name
 
@@ -94,5 +94,7 @@ class BaseProduct(Indexable):
     return self._name
   
   def set_name(self, name) -> None:
+    if name == None or name.strip() == '':
+      raise ValueError("Ten hang hoa khong hop le")
     self._name = name
 
