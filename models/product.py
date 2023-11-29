@@ -56,12 +56,12 @@ class OrderProduct(base.BaseProduct, base.Importable):
   
   def set_total_price(self, total_price):
     if total_price is not None and total_price < 0:
-      raise ValueError("Total price must be greater than zero.")
+      raise ValueError("Tong gia tien phai lon hon 0")
     self._total_price = total_price
     
   def set_final_price(self, final_price):
     if final_price is not None and final_price < 0:
-      raise ValueError("Final price must be greater than zero.")
+      raise ValueError("Tien hang thuc te phai lon hon 0.")
     self._final_price = final_price
     
   
@@ -69,7 +69,7 @@ class OrderProduct(base.BaseProduct, base.Importable):
 def date(str_like_date):
   return datetime.datetime.strptime(str_like_date, '%d/%m/%Y')
 
-def get_user_input(message, parse_to=int, error_message="Invalid data, try again."):
+def get_user_input(message, parse_to=int, error_message="Khong hop le, xin thu lai"):
   while True:
     try:
       data = parse_to(input(message))
@@ -94,7 +94,7 @@ class ManageProduct:
 
   def add_product(self, product):
     if not isinstance(product, Product):
-      raise ValueError("Param must be a type of Product")
+      raise ValueError("Ban phai truyen tham so la mot Product")
     self.__products.append(product)
 
   def get_products(self):
@@ -159,9 +159,9 @@ class ManageProduct:
 
   def search_import_orders(self, month : int, year : int):
     if month <= 0 or month > 12:
-      raise ValueError('Month must be between 1 and 12')
+      raise ValueError('Thang phai nam trong khoang tu 1 - 12')
     if year <= 0:
-      raise ValueError('Year must be a positive integer')
+      raise ValueError('Nam phai la mot so duong')
     found_orders = []
     for order in self.__import_orders:
       import_date = order.get_import_date()
@@ -269,15 +269,15 @@ class ManageProduct:
         break
 
     if product is None:
-      raise ValueError("ID product not exist")
+      raise ValueError("Ma hang hoa khong ton tai")
 
-    new_name = get_user_input("Enter new product name: ", parse_to=str, error_message="Invalid name, try again!")
-    new_price_in = get_user_input("Enter new price in: ", parse_to=int, error_message="Invalide price, it must be an integer.")
-    new_price_out = get_user_input("Enter new price out: ", parse_to=int, error_message="Invalide price, it must be an integer")
-    new_nbr_products = get_user_input("Enter new number of product: ", parse_to=int, error_message="Invalide, number of products must be an integer")
-    exp = get_user_input("Enter expiration day (dd/MM/yyyy): ", parse_to=date, error_message="You must enter a valid date formated as dd/MM/yyyy")
+    new_name = get_user_input("Nhap ten moi: ", parse_to=str)
+    new_price_in = get_user_input("Nhap gia moi: ", parse_to=int, error_message="Gia tien khong le, ban phai nhap mot so.")
+    new_price_out = get_user_input("Nhap gia xuat moi: ", parse_to=int, error_message="Gia xuat khong hop le, ban phai nhap mot so.")
+    new_nbr_products = get_user_input("Nhap so san pham moi: ", parse_to=int, error_message="Khong hop le, ban phai nhap mot so")
+    exp = get_user_input("Enter expiration day (dd/MM/yyyy): ", parse_to=date, error_message="Khong hop le, ngay thang phai co dang dd/MM/yyyy")
 
-    mfg = get_user_input("Enter manufacturing day (dd/MM/yyyy): ", parse_to=date, error_message="You must enter a valid date formated as dd/MM/yyyy")
+    mfg = get_user_input("Nhap ngay san xuat (dd/MM/yyyy): ", parse_to=date, error_message="Khong hop le, ngay thang phai co dang dd/MM/yyyy")
     product._name = new_name 
     product._price_out = new_price_in
     product._price_in = new_price_out
@@ -295,7 +295,7 @@ class ManageProduct:
         product = p
         break
     if product is None:
-      ValueError("ID product not exist")
+      raise ValueError("Ma san pham khong ton tai.")
     else:
       self.__products.remove(product)
   #12

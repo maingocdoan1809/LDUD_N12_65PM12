@@ -6,7 +6,7 @@ import models.product as product
 def check_positive_integer(num):
   num = int(num)
   if num < 0:
-    raise ValueError(f'{num} is negative number')
+    raise ValueError(f'{num} la mot so am')
   return num
 
 
@@ -36,12 +36,12 @@ while True:
   while True:
     try:
         choice = int(input("Lua chon: "))
-        if choice <= 0 or choice >= 12:
-            raise ValueError("Vui long chon cac chuc nang tu 1 -> 12.")
+        if choice <= 0 or choice >= 11:
+            raise ValueError("Vui long chon cac chuc nang tu 1 -> 11.")
         break
     
     except ValueError:
-        print("Vui long chon cac chuc nang tu 1 -> 12.")
+        print("Vui long chon cac chuc nang tu 1 -> 11.")
   
   # Xu ly lua chon #
   match choice:
@@ -71,7 +71,7 @@ while True:
         while True:
           exp = product.get_user_input("Nhap ngay het han (dd/MM/yyyy): ", parse_to=product.date, error_message="Ngay het han khong hop le, xin moi nhap lai.")
           if exp < mfg:
-            print("Error: Expired date must be greater than manufacturing date.")
+            print("Error: Ngay het han phai lon hon ngay san xuat.")
           else:
             break
 
@@ -113,7 +113,8 @@ while True:
           print("Khong co san pham nao duoc tim thay")
         else:
           print("Da tim thay:")
-          print(tim_kiem_theo_ten) 
+          for i in tim_kiem_theo_ten:
+            print(i) 
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
@@ -172,6 +173,7 @@ while True:
     case 7:
       try:
         result =  manager.show_top5_high_low_pricein()
+        
       except Exception as e:
         print("------------------------------")
         print("Error:",e)
@@ -184,10 +186,11 @@ while True:
       try:
         x = manager.need_import_later()
         if len(x) == 0:
-          print("Chua du du lieu thong ke")
+          print("Chua du du lieu don nhap hang thong ke")
           pass
         print("Day la danh sach cac ID hang hoa can nhap: ") 
-        print(x)
+        for i in x:
+          print(i)
       except Exception as e:
         print(e)
 
