@@ -197,6 +197,7 @@ while True:
     case 9:
       # Nhap hang 
       product_list = []
+      import_date = None
       while True:
         import_date = input("Nhap ngay nhap hang (dd/mm/yy): ")
         try:
@@ -236,10 +237,11 @@ while True:
         product = [product_name, price, nbr_product_in, thanhtien, tongtien]
         # add the product to the list of products
         product_list.append(product)
-      manager.add_import_order(import_date, product_list)
-      
-      print("Nhap hang thanh cong.")
-
+      if len(product_list) > 0:
+        manager.add_import_order(import_date, product_list)
+        print("Nhap hang thanh cong.")
+      else:
+        print("Da huy do khong co hang hoa trong hoa don")
 
     case 10:
 
